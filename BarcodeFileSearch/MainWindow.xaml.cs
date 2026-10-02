@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Reflection;
 using System.Windows;
 
 namespace BarcodeFileSearch
@@ -8,11 +9,14 @@ namespace BarcodeFileSearch
     /// </summary>
     public partial class MainWindow : Window
     {
-        DirectoryInfo dir = new DirectoryInfo("datasheets");
+        private DirectoryInfo datasheetsDir;
+        
         public MainWindow()
         {
             InitializeComponent();
-
+            string executableDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string datasheetsPath = Path.Combine(executableDir, "datasheets");
+            datasheetsDir = new DirectoryInfo(datasheetsPath);
         }
 
         private void textBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
@@ -20,9 +24,16 @@ namespace BarcodeFileSearch
             if (listBox != null)
             {
                 listBox.Items.Clear();
-                foreach (var dir in dir.EnumerateDirectories(textBox.Text))
+                try
                 {
-                    listBox.Items.Add(dir.Name);
+                    foreach (var directory in datasheetsDir.EnumerateDirectories(textBox.Text))
+                    {
+                        listBox.Items.Add(directory.Name);
+                    }
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    // Directory not found - leave list empty
                 }
             }
         }
@@ -30,10 +41,11 @@ namespace BarcodeFileSearch
         private void listBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var item = (string)listBox.SelectedItem;
-
+            string fullPath = Path.Combine(datasheetsDir.FullName, item);
+            
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
             {
-                FileName = dir.Name + @"\" + item,
+                FileName = fullPath,
                 UseShellExecute = true,
                 Verb = "open"
             });
