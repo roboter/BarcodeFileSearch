@@ -30,15 +30,19 @@ Barcode File Search is a lightweight desktop application designed to help users 
    cd BarcodeFileSearch
    ```
 
-3. **Build the solution** (using Visual Studio or MSBuild):
-   - Open `BarcodeFileSearch.sln` in Visual Studio and press `F5` to run, or
-   - Use the command line:
+3. **Build the solution** (using Visual Studio, MSBuild, or .NET CLI):
+   - Open `BarcodeFileSearch.sln` in Visual Studio 2022 (17.4+) and press `F5` to run, or
+   - Use MSBuild:
      ```bash
      msbuild BarcodeFileSearch.sln /p:Configuration=Release
      ```
+   - Or use .NET CLI:
+     ```bash
+     dotnet build -c Release
+     ```
 
 4. **Run the application**:
-   - The executable will be located at `BarcodeFileSearch\bin\Release\BarcodeFileSearch.exe` (after a release build) or `BarcodeFileSearch\bin\Debug\BarcodeFileSearch.exe` (after a debug build).
+   - The executable will be located at `BarcodeFileSearch\bin\Release\net8.0-windows\BarcodeFileSearch.exe` (after a release build) or `BarcodeFileSearch\bin\Debug\net8.0-windows\BarcodeFileSearch.exe` (after a debug build).
    - Double-click the executable to run.
 
 ## How to Use
